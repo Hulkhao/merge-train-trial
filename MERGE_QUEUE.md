@@ -69,7 +69,8 @@
 
 - trial-1：机械 merge + Fast Gate 卸载可靠（B-candidate 的"机械"半边）。
 - trial-2：**语义冲突正确停手已实证**（B-candidate 的"语义"半边补齐）。
-- **B 成立**：Captain 模式（queue 消费 + Fast Gate + 冲突分类停手）两项验证全部通过。按试点方案 §9 与 PO 指示，升档位 1（将「queue 消费 + Fast Gate」提炼为脚本或 saved dynamic-workflow）属新增长期治理对象，**立项与否报 PO 拍板**；立项前不创建任何 workflow。
+- **B 成立**：Captain 模式（queue 消费 + Fast Gate + 冲突分类停手）两项验证全部通过。
+- **档位 0.5 落地（PO 拍板采纳 GPT 议案「选 2」）**：Fast Gate 五步固化为 `gate.ps1`（双向冒烟通过：正例 7 步 581ms 全 PASS；污染负例正确 FAIL）。queue 消费/冲突分类仍由 Captain 按协议执行——先固化确定性执行，不固化 Git 编排决策。**真实 Wave 验证一轮**（0 串扰/队列顺序稳定/MERGE_BLOCKED 正确/gate 稳定/中断恢复无问题）后再议档位 1（saved dynamic-workflow）。
 
 ## 设计的机械冲突点
 

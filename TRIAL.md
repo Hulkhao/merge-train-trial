@@ -72,6 +72,12 @@ RUNNING → READY_FOR_MERGE → MERGING → INTEGRATED
 
 注意：`node --test <目录>` 在 Node 24 会报 MODULE_NOT_FOUND，必须用 glob 引号形式（见上，2026-10-04 实测）。
 
+**档位 0.5（PO 2026-10-04 拍板，GPT 同议）**：上述五步已固化为 `gate.ps1`（trial 仓 main 分支根目录），此后 Fast Gate 一律以脚本执行为准、不再手敲命令链：
+```
+pwsh -NoProfile -ExecutionPolicy Bypass -File D:\AIGC\merge-train-trial\gate.ps1 -Branch integration/trial-2 -ExpectedHead <candidate_sha>
+```
+双向冒烟已验：干净 candidate 全 PASS（581ms）；人为污染 → pollution FAIL、GATE=FAIL。queue 消费/冲突分类仍由 Captain 按协议执行（GPT：先固化确定性执行，不固化 Git 编排决策）。真实 Wave 跑完且满足升级条件（0 串扰/队列顺序稳定/MERGE_BLOCKED 行为正确/gate 稳定/中断恢复无问题）后，再议档位 1（saved dynamic-workflow）。
+
 ## 6. MERGE_BLOCKED 报文格式（Captain 专用）
 
 ```text
