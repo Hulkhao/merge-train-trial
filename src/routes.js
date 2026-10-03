@@ -2,5 +2,6 @@
 module.exports = {
   routes: {
     '/hello': () => 'Hello, merge-train trial!',
+    '/greet': (q) => 'Hi, ' + (q.name || 'stranger') + '!',
   },
 };
