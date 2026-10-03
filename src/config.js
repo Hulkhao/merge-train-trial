@@ -3,5 +3,6 @@ module.exports = {
   flags: {
     '/hello': true,
     '/greet': true,
+    '/now': true,
   },
 };
