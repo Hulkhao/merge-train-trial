@@ -2,5 +2,6 @@
 module.exports = {
   flags: {
     '/hello': true,
+    '/sum': true,
   },
 };

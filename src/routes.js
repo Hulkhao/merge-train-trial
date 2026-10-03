@@ -2,5 +2,6 @@
 module.exports = {
   routes: {
     '/hello': () => 'Hello, merge-train trial!',
+    '/sum': (q) => Number(q.a) + Number(q.b),
   },
 };
