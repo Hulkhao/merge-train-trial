@@ -5,9 +5,15 @@
 
 | ID | Owner | Branch | Worktree | Base SHA | Head SHA | State | Risk | Touched Hot Files | Relevant Tests | Queue Order |
 |---|---|---|---|---|---|---|---|---|---|---|
-| MQ-1 | DEV-A | feature/trial-dev-a | D:\AIGC\merge-train-dev-a | 2d6c91d | (待DEV回报) | RUNNING | low | src/routes.js, src/config.js | tests/unit/greet.test.js | 1 |
-| MQ-2 | DEV-B | feature/trial-dev-b | D:\AIGC\merge-train-dev-b | 2d6c91d | (待DEV回报) | RUNNING | low | src/routes.js, src/config.js | tests/unit/now.test.js | 2 |
-| MQ-3 | DEV-C | feature/trial-dev-c | D:\AIGC\merge-train-dev-c | 2d6c91d | (待DEV回报) | RUNNING | low | src/routes.js, src/config.js | tests/unit/sum.test.js | 3 |
+| MQ-1 | DEV-A | feature/trial-dev-a | D:\AIGC\merge-train-dev-a | 2d6c91d | dca1961a84a13254f09b6cc5743c92fd194475ac | READY_FOR_MERGE | low | src/routes.js, src/config.js | tests/unit/greet.test.js | 1 |
+| MQ-2 | DEV-B | feature/trial-dev-b | D:\AIGC\merge-train-dev-b | 2d6c91d | 4906bdac5f07598083659d8669912d0d4240bdde | READY_FOR_MERGE | low | src/routes.js, src/config.js | tests/unit/now.test.js | 2 |
+| MQ-3 | DEV-C | feature/trial-dev-c | D:\AIGC\merge-train-dev-c | 2d6c91d | 78822ed9f2ffffcf20f4f935d5242ffca83c996d | READY_FOR_MERGE | low | src/routes.js, src/config.js | tests/unit/sum.test.js | 3 |
+
+## Orchestrator 流水记录（试点数据）
+
+- 2026-10-04 ~06:47 三线平行派单；DEV 回报耗时（自报）：DEV-C 2min、DEV-A 3min、DEV-B 5min；回报顺序 C→B→A。
+- Orchestrator 抽查三线：branch/HEAD 与自报一致、工作区全净（porcelain=0）✓。
+- 2026-10-04 ~06:52 队列三行全部置 READY_FOR_MERGE，Captain 发车（Head SHA 已锁定入单）。
 
 ## 设计的机械冲突点
 
