@@ -5,5 +5,6 @@ module.exports = {
     '/greet': true,
     '/now': true,
     '/sum': true,
+    '/temp': true,
   },
 };
