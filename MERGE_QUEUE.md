@@ -52,11 +52,24 @@
 
 | ID | Owner | Branch | Head SHA | State | 备注 |
 |---|---|---|---|---|---|
-| S1 | DEV-S1 | feature/trial2-s1 | 5facfff94f9b98d016907920dbb9a254323cf0c9 | READY_FOR_MERGE | /temp 摄氏，8 测全绿，抽查✓ |
-| S2 | DEV-S2 | feature/trial2-s2 | fe5d05825ad2608b58520f173af0398916a98404 | READY_FOR_MERGE | /temp 华氏，8 测全绿，抽查✓ |
+| S1 | DEV-S1 | feature/trial2-s1 | 5facfff94f9b98d016907920dbb9a254323cf0c9 | INTEGRATED (0bdfcb4, 07:1x) | /temp 摄氏，8 测全绿，clean 合入+Fast Gate 全绿 |
+| S2 | DEV-S2 | feature/trial2-s2 | fe5d05825ad2608b58520f173af0398916a98404 | MERGE_BLOCKED → CLOSED（裁决：华氏线关闭，未合入） | /temp 华氏；Captain 正确停手 |
 
-- candidate worktree 已切至 integration/trial-2（HEAD=e588fec）。
-- 本轮验收标准：**不是合完，而是 Captain 对不可并集冲突正确停手**——识别 semantic、禁止拍板、按 §6 出结构化 MERGE_BLOCKED。
+### trial-2 结果：PASS（2026-10-04 07:1x）
+
+- Captain 对 S2 冲突的处置全部命中验收点：classification=**semantic**（三段论证明：同 key 重复定义 last-wins 静默吞实现 / 双方测试并存必互红 Fast Gate 不可能全绿 / 无既有规则可唯一裁决摄氏 vs 华氏）；evidence 引用双方冲突原文与测试断言；recommended_next_action=orchestrator_decision（并附 return_to_owner 备选）；`git merge --abort` 恢复干净 candidate；全程未删改任何一方实现与测试、未自行拍板。
+- Orchestrator 独立核验：candidate=0bdfcb4、status 空、8/8 测试绿、路由 5 条、/temp=21C——与报告一致。
+
+### Orchestrator 裁决（trial-2 S2）
+
+- **裁决**：S1 摄氏胜出（业务规则：面向中国市场用户，温度默认摄氏）；S2 华氏线按原样关闭，不重派（其语义与胜出方互斥，重派无增益）。
+- **产品层备注（非本轮动作）**：若两种温度语义确有并存需求，正确形态是拆分为 `/temp-c` 与 `/temp-f` 两个路由（即 Captain 报告中 return_to_owner 备选的思路），留作真实需求出现时的参考。
+
+## 结论（终版）
+
+- trial-1：机械 merge + Fast Gate 卸载可靠（B-candidate 的"机械"半边）。
+- trial-2：**语义冲突正确停手已实证**（B-candidate 的"语义"半边补齐）。
+- **B 成立**：Captain 模式（queue 消费 + Fast Gate + 冲突分类停手）两项验证全部通过。按试点方案 §9 与 PO 指示，升档位 1（将「queue 消费 + Fast Gate」提炼为脚本或 saved dynamic-workflow）属新增长期治理对象，**立项与否报 PO 拍板**；立项前不创建任何 workflow。
 
 ## 设计的机械冲突点
 
