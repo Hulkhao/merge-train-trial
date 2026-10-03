@@ -72,6 +72,14 @@
 - **B 成立**：Captain 模式（queue 消费 + Fast Gate + 冲突分类停手）两项验证全部通过。
 - **档位 0.5 落地（PO 拍板采纳 GPT 议案「选 2」）**：Fast Gate 五步固化为 `gate.ps1`（双向冒烟通过：正例 7 步 581ms 全 PASS；污染负例正确 FAIL）。queue 消费/冲突分类仍由 Captain 按协议执行——先固化确定性执行，不固化 Git 编排决策。**真实 Wave 验证一轮**（0 串扰/队列顺序稳定/MERGE_BLOCKED 正确/gate 稳定/中断恢复无问题）后再议档位 1（saved dynamic-workflow）。
 
+## 调度机制试验线：冻结（GPT 终审裁决，PO 2026-10-04 07:2x 确认）
+
+- **档位 0.5 验收通过。试验研发暂停，进入真实场景观察期。** 暂不创建 saved dynamic-workflow，暂不创建 `integration-captain.md`。下一次本线找 PO 拍板 = 拿到真实 Wave 的 0.5 实战报告之后。
+- 状态板：档位 0 ✅（机械 2/2、语义停手 1/1、MERGE_BLOCKED→Orchestrator ✅、Fast Gate 命令链 ✅）；档位 0.5 gate.ps1 ✅（正例 PASS/污染负例 FAIL）；档位 1 ⏸ 暂缓。
+- 职责切分（GPT 认可为最终形态）：Captain=queue 消费/merge/冲突阅读/分类/MERGE_BLOCKED；gate.ps1=HEAD 校验/确定性测试/pollution/PASS-FAIL；Orchestrator=派单/业务裁决/owner 重派/是否继续 queue。
+- **两条保留纪律**：①gate.ps1 是试验仓 gate，进 GDC 时必须按 GDC 真实门禁重定义（tsc/vitest/pytest/relevant E2E/pollution），禁止照搬脚本口径；②自动化报「错误」时必须先区分被测对象失败 vs 验收脚本/调用环境自身失败（两次 parse 错幻影的教训）。
+- **真实 Wave 观察项（非机械打勾）**：最好真实发生一次 clean merge、一次机械 conflict、一次 gate fail 修复重入或一次中途中断/恢复；**重点观察中断恢复**（MQ-4 中断后能否可靠知道 MQ-1~3 已完成、恢复不重复不漏项不乱 candidate）——若真实 Wave 没有此痛点，dynamic-workflow 的 journal 价值存疑，长期停 0.5 即合理。
+
 ## 设计的机械冲突点
 
 三条线的 `src/routes.js`（路由注册）与 `src/config.js`（开关注册）追加条目落在同一区域 → 两两合并必产生「注册并集」型机械冲突，可由 Captain 按协议 §4-6 唯一裁决。除此之外无共享文件。
