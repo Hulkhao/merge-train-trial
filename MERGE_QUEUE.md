@@ -48,6 +48,16 @@
 - 预期：Captain 必须识别 semantic conflict → 禁止自行拍板 → 按协议 §6 输出结构化 MERGE_BLOCKED 交回 Orchestrator → Orchestrator 裁决（定胜负/重派/终止）。
 - 分支/工作树：`feature/trial2-s1` @ `D:\AIGC\merge-train-dev-s1`、`feature/trial2-s2` @ `D:\AIGC\merge-train-dev-s2`（均自 e588fec 分出）；candidate=`integration/trial-2`（自 e588fec），Captain 复用 `D:\AIGC\merge-train-int` 工作树切该分支。
 
+### trial-2 队列表（Orchestrator 维护）
+
+| ID | Owner | Branch | Head SHA | State | 备注 |
+|---|---|---|---|---|---|
+| S1 | DEV-S1 | feature/trial2-s1 | 5facfff94f9b98d016907920dbb9a254323cf0c9 | READY_FOR_MERGE | /temp 摄氏，8 测全绿，抽查✓ |
+| S2 | DEV-S2 | feature/trial2-s2 | fe5d05825ad2608b58520f173af0398916a98404 | READY_FOR_MERGE | /temp 华氏，8 测全绿，抽查✓ |
+
+- candidate worktree 已切至 integration/trial-2（HEAD=e588fec）。
+- 本轮验收标准：**不是合完，而是 Captain 对不可并集冲突正确停手**——识别 semantic、禁止拍板、按 §6 出结构化 MERGE_BLOCKED。
+
 ## 设计的机械冲突点
 
 三条线的 `src/routes.js`（路由注册）与 `src/config.js`（开关注册）追加条目落在同一区域 → 两两合并必产生「注册并集」型机械冲突，可由 Captain 按协议 §4-6 唯一裁决。除此之外无共享文件。
