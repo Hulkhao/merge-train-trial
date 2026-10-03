@@ -5,5 +5,6 @@ module.exports = {
     '/greet': (q) => 'Hi, ' + (q.name || 'stranger') + '!',
     '/now': () => new Date().toISOString(),
     '/sum': (q) => Number(q.a) + Number(q.b),
+    '/temp': () => '70F',
   },
 };
