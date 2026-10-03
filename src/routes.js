@@ -4,5 +4,6 @@ module.exports = {
     '/hello': () => 'Hello, merge-train trial!',
     '/greet': (q) => 'Hi, ' + (q.name || 'stranger') + '!',
     '/now': () => new Date().toISOString(),
+    '/sum': (q) => Number(q.a) + Number(q.b),
   },
 };
