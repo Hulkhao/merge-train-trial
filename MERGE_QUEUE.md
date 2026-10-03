@@ -40,7 +40,13 @@
 
 ## 结论（按试点方案 §9 格式）
 
-**B — 升级到档位 1**：Merge Queue / Fast Gate 的确定性步骤已明显稳定（3/3 集成、2/2 机械自解、0 门禁失败、0 串扰），建议下一轮把「queue 消费 + Fast Gate」提炼为脚本或 saved dynamic-workflow；语义冲突归因仍留 Agent。本轮遵约不直接创建 workflow，下一轮方案另行提出。
+**B-candidate（PO 2026-10-04 修正：暂不固化 saved workflow）**：机械 merge + Fast Gate 可由 Captain 稳定卸载已证实（3/3 集成、2/2 机械自解、0 门禁失败、0 串扰），但本轮 **0 次真实语义冲突 / MERGE_BLOCKED**，尚未验证 Captain 不可唯一裁决时是否正确停手。**下一轮做最小受控语义冲突试验（trial-2，见下），该用例通过后再正式决定是否升级档位 1。**
+
+## trial-2：最小受控语义冲突试验（进行中）
+
+- 设计：两个 DEV 对**同一个新路由 `/temp`** 提交互斥但各自自洽的温度语义——S1=摄氏（`21C` 形态），S2=华氏（`70F` 形态）；各自带独立测试文件。routes.js/config.js 的 `/temp` 条目互斥，**不可并集**（并集=同 key 重复定义，静默吞掉一方实现）。
+- 预期：Captain 必须识别 semantic conflict → 禁止自行拍板 → 按协议 §6 输出结构化 MERGE_BLOCKED 交回 Orchestrator → Orchestrator 裁决（定胜负/重派/终止）。
+- 分支/工作树：`feature/trial2-s1` @ `D:\AIGC\merge-train-dev-s1`、`feature/trial2-s2` @ `D:\AIGC\merge-train-dev-s2`（均自 e588fec 分出）；candidate=`integration/trial-2`（自 e588fec），Captain 复用 `D:\AIGC\merge-train-int` 工作树切该分支。
 
 ## 设计的机械冲突点
 
