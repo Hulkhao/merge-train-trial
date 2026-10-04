@@ -46,7 +46,7 @@
 | 机制冻结基线 | `77a37fbd750be9f4ef9bda9504ee0c50d2f577d0`（docs: design freeze — 档位 0.5 验收通过 + 真实 Wave 观察期冻结令；机制代码的最终 commit） |
 | handoff 包 commit | `c194a3973d7c5a376a5f676bf86c6a30545f1760` |
 | handoff 盖章 commit | `4ac97c86ab3269f1b15d52d313b1b48695c478b2`（GPT 首次 GitHub 审计时所在 main HEAD） |
-| 交接修订轮 2 | commit 见本表末行盖章（GPT 评审四点修订：启动拓扑 / 试验仓只读与报告落点 / 版本事实 / workflow 命名） |
+| 交接修订轮 2 | `96a0d2e766beb7be79e523475af340fb64733dea`（GPT 评审四点修订：启动拓扑 / 试验仓只读与报告落点 / 版本事实 / workflow 命名；新增 START_PROMPT.md） |
 | 试验 Base commit | `2d6c91d1a3c44dbda80d570f9d08a1cb57f94777`（trial-1 分岔点） |
 | gate.ps1 定版 commit | `f3d6d39b55a4d6023811a47b86b904c978e4ca24`（Fast Gate 固化，双向冒烟） |
 | **workflow 文件（.dwf.ts）** | **不存在。** 档位 1（saved dynamic-workflow）按冻结令未创建；现行载体=协议三件套（下两行） |
