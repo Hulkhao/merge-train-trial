@@ -46,7 +46,7 @@
 | 队列文件 | `D:\AIGC\merge-train-trial\MERGE_QUEUE.md`（Orchestrator 独写；trial-1/trial-2 队列表+12 项数据+结论） |
 | gate 脚本 | `D:\AIGC\merge-train-trial\gate.ps1`（注意：内部硬编码 candidate worktree=`D:/AIGC/merge-train-int`，接真实项目必须改造成 gate adapter，见 ADAPTATION_GUIDE） |
 | DECISIONS.md | **不存在**于试验仓；决策记录在 TRIAL.md 结论节 + commit 历史 |
-| 本交接包 | `D:\AIGC\merge-train-trial\handoff\`（5 个文件） |
+| 本交接包 | `D:\AIGC\merge-train-trial\handoff\`（5 个文件，自身 commit=`c194a39`，盖章于其后的 stamp commit） |
 
 **残留 worktree 清单（试验遗留，非活跃任务；处置需 Orchestrator 同意）**：
 
