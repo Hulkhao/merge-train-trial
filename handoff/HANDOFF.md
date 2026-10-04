@@ -75,7 +75,7 @@
 2. **运行什么？** 先按 ADAPTATION_GUIDE 在目标项目做只读勘察 → 写 gate adapter → 正反双向冒烟（干净树 PASS + 人为污染 FAIL）→ 按 FIRST_REAL_WAVE_TEST_PLAN 发车真实 Wave。全程不向 merge-train-trial 写任何文件（整仓只读）。
 3. **绝对不能做什么？** SAFETY_BOUNDARIES.md 全部条目。最硬的五条：不自动 merge main、不 push（试验仓与目标项目默认都未授权 workflow 侧 push）、semantic conflict 必须停手上报、破坏性 git 操作前必须核验 root/worktree/branch/SHA、不因 workflow 需要放宽目标项目生产守卫。
 4. **我的输入是什么？** 目标项目 + 其任务书（GOAL/task 文档）+ 按 WORKFLOW_CONTRACT 输入节定义的执行包清单（owner/branch/worktree/base/head/relevant tests/queue order）。
-5. **我的输出是什么？** 队列表终态（每包状态/branch/worktree/HEAD/tests/gate 结果/失败分类）+ candidate 信息 + 实践报告（落点见第 7 问），交 PO。
+5. **我的输出是什么？** 队列表终态（每包状态/branch/worktree/HEAD/tests/gate 结果/失败分类）+ candidate 信息 + 实践报告（落点见下方「六题主会话校准」第 5 条，或 FIRST_REAL_WAVE_TEST_PLAN §5），交 PO。
 6. **第一轮真实项目实践怎样算通过？** FIRST_REAL_WAVE_TEST_PLAN.md 的三值结论：REAL-WAVE PASS / PASS WITH CHANGES / FAIL（回退档位 0.5），判定标准在该文件第 4 节。
 7. **出现 semantic conflict 怎么办？** 停手。按 TRIAL.md 第 6 节 MERGE_BLOCKED 报文格式（classification=semantic + evidence + recommended_next_action）交回 Orchestrator 裁决；**任何 Agent 不得自行拍板业务语义**。
 8. **workflow 跑到一半中断后，去哪里恢复状态？** `MERGE_QUEUE.md` 等价队列表是唯一状态事实源。恢复五步（详见 SAFETY_BOUNDARIES.md 第 6 节）：不重发在途单 → 读队列表 → 逐 worktree git 核验（branch/HEAD/porcelain）→ 与各 Agent 已交报告对账 → 补记状态后接续。若未来升级档位 1（dynamic-workflow），另有 journal 断点恢复，但那是升级后才存在的能力。
@@ -87,7 +87,7 @@
 3. **当前有没有 saved workflow？** 没有。"workflow"=档位 0.5 人工编排机制的简称，不存在 `.dwf.ts`，禁止自行创建。
 4. **trial repo 能不能写？** 不能。merge-train-trial 整仓（含 handoff/）实践期只读，归档回仓需 PO 单独授权。
 5. **REAL_WAVE_REPORT 写哪里？** 目标项目批准的 task/research 目录；目标项目无合适位置则写仓外 `D:\AIGC\research-reports\REAL_WAVE_<project>_<日期>.md`。禁止写进 merge-train-trial。
-6. **谁可以 merge main / push？** merge 仅限 Orchestrator 把完成分支合入 integration candidate 分支；是否进 main 由 Orchestrator 裁决、push 按目标项目 PO 授权执行；workflow/Captain/DEV 默认均无 push 权。
+6. **谁可以 merge main / push？** merge 分两层：Captain 只负责把完成分支合入 integration candidate（这是它唯一允许的 merge，见 SAFETY_BOUNDARIES）；candidate 是否进入 main 由 Orchestrator 裁决并执行最终 main merge。push 按目标项目 PO 授权执行；workflow/Captain/DEV 默认均无 push 权。
 
 ## E. 你的任务边界（重复一遍，防止跑偏）
 

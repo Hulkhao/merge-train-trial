@@ -25,7 +25,7 @@
 你的任务（边界收死，不得扩展）：
 - 在上述目标项目跑第一轮真实 Wave：3~5 个 DEV 包 + 你本人任 Orchestrator；按 ADAPTATION_GUIDE 先只读勘察十项，再改造 gate adapter 并双向冒烟，然后按 FIRST_REAL_WAVE_TEST_PLAN 发车与验收。
 - 只适配「参数与 gate adapter」，不改 workflow 职责边界；**不向试验仓回写任何文件**（merge-train-trial 整仓实践期只读，含 handoff/）。
-- 绝对禁止：squash merge 进 main、push、自行裁决业务语义冲突（semantic 必须 MERGE_BLOCKED 停手上报 PO）、修改 PO 决策、跨 worktree 顺手修复、为过门禁改测试做绿。
+- 绝对禁止：squash merge 进 main、push、跳过链路自行拍板业务语义冲突（semantic 冲突链路：Captain 按 MERGE_BLOCKED 停手回报 → Orchestrator 依现有规则裁决 → 仍无法唯一裁决时才升级 PO，见 WORKFLOW_CONTRACT §4.1）、修改 PO 决策、跨 worktree 顺手修复、为过门禁改测试做绿。
 - 中断恢复一律按 SAFETY_BOUNDARIES 第 6 节五步走，MERGE_QUEUE 等价队列表是唯一状态事实源。
 - 产出：真实 Wave 实践报告（落点见 TEST_PLAN 第 5 节：目标项目批准的 task/research 目录，默认仓外 `D:\AIGC\research-reports\REAL_WAVE_<project>_<日期>.md`），结论只能取 REAL-WAVE PASS / PASS WITH CHANGES / FAIL 三值之一。
 
