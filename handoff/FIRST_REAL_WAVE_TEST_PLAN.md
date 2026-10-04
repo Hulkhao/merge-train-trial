@@ -41,7 +41,9 @@
 
 **不要因为单次实践通过就自动授权「自动 merge main」**——那需要 PO 另行拍板。
 
-## 5. 实践报告格式（交 PO，落 `handoff/REAL_WAVE_REPORT_<日期>.md`）
+## 5. 实践报告格式（交 PO）
+
+> 报告落点在**试验仓之外**：优先写目标项目批准的 task/research 目录；目标项目无合适位置（如只读期）则写仓外 `D:\AIGC\research-reports\REAL_WAVE_<project>_<日期>.md`。**禁止写进 `merge-train-trial/handoff/`**（实践期试验仓整仓只读）；实践完成后是否归档回 trial repo，由 PO 单独授权。
 
 1. 目标项目与勘察结论（十项逐条）；
 2. Wave 概况（包数、任务书、base_sha、耗时）；
@@ -55,5 +57,5 @@
 
 - 不自动 merge main、不 push、不做发布；
 - 不因本轮顺利而顺手升级职责范围；
-- 不修改试验仓既有裁决（试验仓已冻结，只读）；
+- 实践期不向试验仓回写任何文件（整仓只读，含报告与 gate adapter）；归档回仓需 PO 单独授权；
 - 报告完成后停下等 PO，不自行创建下一 Agent、不自行开下一轮。

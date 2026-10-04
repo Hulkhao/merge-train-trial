@@ -2,7 +2,12 @@
 
 > 交接日期：2026-10-04。交接人：上一任项目主管（ZCode 主会话）。
 > 接收人：项目实践 Agent（全新上下文）。本包自足，不依赖任何会话历史。
-> 第一阅读顺序：HANDOFF.md（本文件） → WORKFLOW_CONTRACT.md → SAFETY_BOUNDARIES.md → ADAPTATION_GUIDE.md → FIRST_REAL_WAVE_TEST_PLAN.md。
+> 第一阅读顺序：HANDOFF.md（本文件） → WORKFLOW_CONTRACT.md → SAFETY_BOUNDARIES.md → ADAPTATION_GUIDE.md → FIRST_REAL_WAVE_TEST_PLAN.md → START_PROMPT.md（PO 复制作启动语）。
+>
+> **三个定调事实（必读，防认知漂移）**：
+> 1. 本轮所称 "workflow" 是「Merge Train 档位 0.5 人工编排机制」的简称，**不是** ZCode saved dynamic-workflow；当前不存在 `.dwf.ts`，禁止自行创建（档位 1 是真实 Wave 报告之后 PO 的拍板事项）。
+> 2. **启动拓扑（fail-fast）**：项目实践 Agent 必须运行在一个全新的 ZCode **顶层主会话**中，本人就是本轮 Orchestrator；禁止把本交接 Prompt 派给普通 subagent（subagent 不能再派 DEV/Captain/Reviewer）。正确拓扑：PO → 新主会话 Orchestrator → 平级 DEV/Captain/Reviewer。若你检测到自己是 subagent / 无派单能力，立即停止并报告「启动方式错误」。
+> 3. **真实 Wave 实践期间试验仓整仓只读**（含 handoff/ 目录）：实践过程中不得向 merge-train-trial 回写任何文件；归档回仓需 PO 单独授权。
 
 ## A. 背景：为什么做这件事，原始瓶颈是什么
 
@@ -37,16 +42,19 @@
 
 | 项 | 值 |
 |---|---|
-| 试验仓 branch | `main`（无远程仓库，纯本地；push 概念不存在） |
-| 试验仓 HEAD | `77a37fb`（docs: design freeze per GPT ruling — 档位 0.5 验收通过 + 真实 Wave 观察期冻结令） |
+| 试验仓 branch / remote | `main` @ GitHub `Hulkhao/merge-train-trial`（已有 GitHub remote）；但机制试验与真实 Wave 默认均不授权 workflow/Captain/DEV push，目标项目有 push 权限与否以目标项目 PO 授权为准 |
+| 机制冻结基线 | `77a37fbd750be9f4ef9bda9504ee0c50d2f577d0`（docs: design freeze — 档位 0.5 验收通过 + 真实 Wave 观察期冻结令；机制代码的最终 commit） |
+| handoff 包 commit | `c194a3973d7c5a376a5f676bf86c6a30545f1760` |
+| handoff 盖章 commit | `4ac97c86ab3269f1b15d52d313b1b48695c478b2`（GPT 首次 GitHub 审计时所在 main HEAD） |
+| 交接修订轮 2 | commit 见本表末行盖章（GPT 评审四点修订：启动拓扑 / 试验仓只读与报告落点 / 版本事实 / workflow 命名） |
 | 试验 Base commit | `2d6c91d1a3c44dbda80d570f9d08a1cb57f94777`（trial-1 分岔点） |
-| gate.ps1 定版 commit | `f3d6d39`（feat(gate): Fast Gate 固化，双向冒烟） |
+| gate.ps1 定版 commit | `f3d6d39b55a4d6023811a47b86b904c978e4ca24`（Fast Gate 固化，双向冒烟） |
 | **workflow 文件（.dwf.ts）** | **不存在。** 档位 1（saved dynamic-workflow）按冻结令未创建；现行载体=协议三件套（下两行） |
 | 协议文件 | `D:\AIGC\merge-train-trial\TRIAL.md`（角色/边界/状态机/Captain 十条/Fast Gate/报文格式/冻结裁决） |
 | 队列文件 | `D:\AIGC\merge-train-trial\MERGE_QUEUE.md`（Orchestrator 独写；trial-1/trial-2 队列表+12 项数据+结论） |
 | gate 脚本 | `D:\AIGC\merge-train-trial\gate.ps1`（注意：内部硬编码 candidate worktree=`D:/AIGC/merge-train-int`，接真实项目必须改造成 gate adapter，见 ADAPTATION_GUIDE） |
 | DECISIONS.md | **不存在**于试验仓；决策记录在 TRIAL.md 结论节 + commit 历史 |
-| 本交接包 | `D:\AIGC\merge-train-trial\handoff\`（5 个文件，自身 commit=`c194a39`，盖章于其后的 stamp commit） |
+| 本交接包 | `D:\AIGC\merge-train-trial\handoff\`（6 个文件：五件套 + START_PROMPT.md） |
 
 **残留 worktree 清单（试验遗留，非活跃任务；处置需 Orchestrator 同意）**：
 
@@ -63,14 +71,23 @@
 
 ## D. 给全新 Agent 的快速答（fresh-context 自检八问）
 
-1. **从哪个文件开始读？** 本文件（HANDOFF.md），按顶部阅读顺序读完五件套再动手。
-2. **运行什么？** 先按 ADAPTATION_GUIDE 在目标项目做只读勘察 → 写 gate adapter → 正反双向冒烟（干净树 PASS + 人为污染 FAIL）→ 按 FIRST_REAL_WAVE_TEST_PLAN 发车真实 Wave。
-3. **绝对不能做什么？** SAFETY_BOUNDARIES.md 全部条目。最硬的五条：不自动 merge main、不 push、semantic conflict 必须停手上报、破坏性 git 操作前必须核验 root/worktree/branch/SHA、不因 workflow 需要放宽目标项目生产守卫。
+1. **从哪个文件开始读？** 本文件（HANDOFF.md），按顶部阅读顺序读完六件套再动手。
+2. **运行什么？** 先按 ADAPTATION_GUIDE 在目标项目做只读勘察 → 写 gate adapter → 正反双向冒烟（干净树 PASS + 人为污染 FAIL）→ 按 FIRST_REAL_WAVE_TEST_PLAN 发车真实 Wave。全程不向 merge-train-trial 写任何文件（整仓只读）。
+3. **绝对不能做什么？** SAFETY_BOUNDARIES.md 全部条目。最硬的五条：不自动 merge main、不 push（试验仓与目标项目默认都未授权 workflow 侧 push）、semantic conflict 必须停手上报、破坏性 git 操作前必须核验 root/worktree/branch/SHA、不因 workflow 需要放宽目标项目生产守卫。
 4. **我的输入是什么？** 目标项目 + 其任务书（GOAL/task 文档）+ 按 WORKFLOW_CONTRACT 输入节定义的执行包清单（owner/branch/worktree/base/head/relevant tests/queue order）。
-5. **我的输出是什么？** 队列表终态（每包状态/branch/worktree/HEAD/tests/gate 结果/失败分类）+ candidate 信息 + 实践报告 `handoff/REAL_WAVE_REPORT_<日期>.md`，交 PO。
+5. **我的输出是什么？** 队列表终态（每包状态/branch/worktree/HEAD/tests/gate 结果/失败分类）+ candidate 信息 + 实践报告（落点见第 7 问），交 PO。
 6. **第一轮真实项目实践怎样算通过？** FIRST_REAL_WAVE_TEST_PLAN.md 的三值结论：REAL-WAVE PASS / PASS WITH CHANGES / FAIL（回退档位 0.5），判定标准在该文件第 4 节。
 7. **出现 semantic conflict 怎么办？** 停手。按 TRIAL.md 第 6 节 MERGE_BLOCKED 报文格式（classification=semantic + evidence + recommended_next_action）交回 Orchestrator 裁决；**任何 Agent 不得自行拍板业务语义**。
-8. **workflow 跑到一半中断后，去哪里恢复状态？** `MERGE_QUEUE.md` 队列表是唯一状态事实源。恢复五步（详见 SAFETY_BOUNDARIES.md 第 6 节）：不重发在途单 → 读队列表 → 逐 worktree git 核验（branch/HEAD/porcelain）→ 与各 Agent 已交报告对账 → 补记状态后接续。若未来升级档位 1（dynamic-workflow），另有 journal 断点恢复，但那是升级后才存在的能力。
+8. **workflow 跑到一半中断后，去哪里恢复状态？** `MERGE_QUEUE.md` 等价队列表是唯一状态事实源。恢复五步（详见 SAFETY_BOUNDARIES.md 第 6 节）：不重发在途单 → 读队列表 → 逐 worktree git 核验（branch/HEAD/porcelain）→ 与各 Agent 已交报告对账 → 补记状态后接续。若未来升级档位 1（dynamic-workflow），另有 journal 断点恢复，但那是升级后才存在的能力。
+
+### 六题主会话校准（GPT 复审要求，每题唯一答案）
+
+1. **我是不是主会话？** 必须是。本交接 Prompt 只允许运行在新 ZCode 顶层主会话；检测到自己是 subagent / 无派单能力 → 立即停止并报告「启动方式错误」。
+2. **我能不能派 DEV？** 能。你就是本轮 Orchestrator，全轮唯一派单权持有者。
+3. **当前有没有 saved workflow？** 没有。"workflow"=档位 0.5 人工编排机制的简称，不存在 `.dwf.ts`，禁止自行创建。
+4. **trial repo 能不能写？** 不能。merge-train-trial 整仓（含 handoff/）实践期只读，归档回仓需 PO 单独授权。
+5. **REAL_WAVE_REPORT 写哪里？** 目标项目批准的 task/research 目录；目标项目无合适位置则写仓外 `D:\AIGC\research-reports\REAL_WAVE_<project>_<日期>.md`。禁止写进 merge-train-trial。
+6. **谁可以 merge main / push？** merge 仅限 Orchestrator 把完成分支合入 integration candidate 分支；是否进 main 由 Orchestrator 裁决、push 按目标项目 PO 授权执行；workflow/Captain/DEV 默认均无 push 权。
 
 ## E. 你的任务边界（重复一遍，防止跑偏）
 
@@ -80,4 +97,4 @@
 4. 不突破已冻结的自动化边界（SAFETY_BOUNDARIES.md）；
 5. 产出真实项目实践报告。
 
-**不要**：继续设计 workflow、新增功能、修改档位裁决、创建 saved dynamic-workflow（那是真实 Wave 报告之后 PO 拍板的事）、进入真实项目直接写业务代码。
+**不要**：继续设计 workflow、新增功能、修改档位裁决、创建 saved dynamic-workflow（那是真实 Wave 报告之后 PO 拍板的事）、进入真实项目直接写业务代码、向 merge-train-trial 回写任何文件（实践期整仓只读，含 handoff/）。

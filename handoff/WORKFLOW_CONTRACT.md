@@ -1,6 +1,7 @@
 # WORKFLOW_CONTRACT — 把这套机制当接口看
 
 > 本文区分两层：**已实现的合同**（试验仓现行，档位 0.5）与**冻结的设计边界**（PO 2026-10-04 定义，真实 Wave 起生效，载体可以是人工编排或未来 saved workflow）。凡「未实现」标注的能力，不得当作已存在来调用。
+> 命名说明：本轮所称 "workflow" = Merge Train 档位 0.5 人工编排机制的简称，不是 ZCode saved dynamic-workflow；当前不存在 `.dwf.ts`，禁止自行创建。
 
 ## 1. 职责边界（冻结原则，原样传递）
 
@@ -106,7 +107,7 @@ recommended_next_action:  # captain_can_fix / return_to_owner / orchestrator_dec
 - 队列表终态 + 每包 READY→INTEGRATED 耗时；
 - Full Gate 结果（全量测试 + pollution + 业务抽测）；
 - candidate 终态 SHA（=「可合并候选」，是否进 main 由 Orchestrator/PO 裁决）；
-- 实践报告（FIRST_REAL_WAVE_TEST_PLAN 第 5 节格式）。
+- 实践报告（FIRST_REAL_WAVE_TEST_PLAN 第 5 节格式）；落点在**试验仓之外**：目标项目批准的 task/research 目录，默认仓外 `D:\AIGC\research-reports\REAL_WAVE_<project>_<日期>.md`；禁止写回 merge-train-trial（实践期整仓只读，归档需 PO 单独授权）。
 
 ## 4. 状态模型（真实实现，勿虚构）
 

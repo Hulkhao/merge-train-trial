@@ -32,7 +32,7 @@
 | sanity | root/branch/HEAD 三核验 | **必须保留**，这是防串扰的核心步骤，且 root 断言改为目标项目 candidate 路径 |
 | pwsh7 守卫 | exit 42 | 保留 |
 
-改造后的脚本叫 **gate adapter**，存放位置与命名按目标项目惯例（建议 `gate-<wave-id>.ps1` 或目标项目 scripts 目录），**只放试验仓之外的目标项目侧或 handoff 侧，不回写试验仓**。
+改造后的脚本叫 **gate adapter**，存放位置与命名按目标项目惯例（建议 `gate-<wave-id>.ps1` 或目标项目 scripts 目录），**只放目标项目侧，不回写试验仓**（实践期 merge-train-trial 整仓只读）。
 
 改造后必须做**双向冒烟**（继承试验仓纪律）：
 
@@ -62,4 +62,4 @@
 
 - 不创建 saved dynamic-workflow（档位 1，真实 Wave 报告后 PO 拍板）；
 - 不自动化 squash merge / push / 发布；
-- 不改试验仓既有裁决与协议（试验仓已冻结，只读看待）。
+- 实践期试验仓整仓只读：不改其裁决与协议，也不回写任何文件（含报告）；归档回仓需 PO 单独授权。

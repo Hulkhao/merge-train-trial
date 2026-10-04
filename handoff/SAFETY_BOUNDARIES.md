@@ -11,8 +11,9 @@
 ## 2. merge 与 push
 
 - **workflow 不自动 merge main**；squash merge 进 main 由 Orchestrator 逐包裁决执行。
-- **禁止 git push**（试验仓无远程；目标项目的 push/部署按该项目 PO 授权执行，默认不授权给 workflow）。
+- **push 默认不授权**：试验仓已有 GitHub remote（`Hulkhao/merge-train-trial`），但机制试验与真实 Wave 默认均不授权 workflow/Captain/DEV push；目标项目的 push/部署按目标项目 PO 授权执行，默认不授权给 workflow。
 - Captain 只把完成分支合入 integration candidate 分支，这是它唯一允许的 merge。
+- **真实 Wave 实践期间试验仓整仓只读**（含 `handoff/`）：实践过程中不得向 merge-train-trial 回写任何文件；归档回仓需 PO 单独授权。
 
 ## 3. 冲突处置
 
